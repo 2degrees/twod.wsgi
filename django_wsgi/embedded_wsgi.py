@@ -13,7 +13,6 @@
 # INFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-##############################################################################
 """
 Utilities to use WSGI applications within Django.
 
