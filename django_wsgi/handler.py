@@ -20,7 +20,6 @@ from django.core.handlers.wsgi import WSGIHandler as DjangoWSGIHandler
 from django.core.handlers.wsgi import WSGIRequest as DjangoRequest
 from webob import Request as WebobRequest
 
-
 __all__ = ("DjangoWSGIRequest", "DjangoApplication")
 
 
@@ -62,5 +61,13 @@ class DjangoApplication(DjangoWSGIHandler):
     request_class = DjangoWSGIRequest
 
 
-APPLICATION = DjangoApplication()
+def setup_wsgi_application():
+    import django
+    import os
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
+    django.setup(set_prefix=False)
+    return DjangoApplication()
+
+
+APPLICATION = setup_wsgi_application()
 """WSGI application based on :class:`DjangoApplication`."""
