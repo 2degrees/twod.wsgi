@@ -42,7 +42,7 @@ class TestCallWSGIApp(BaseDjangoTestCase):
         # Running the app:
         app = MockApp("200 OK", [])
         call_wsgi_app(app, request, "/models")
-        eq_(expected_environ.keys(), request.environ.keys())
+        ok_(request.environ.keys()>=expected_environ.keys())
         for variable_name, expected_variable_value in expected_environ.items():
             if variable_name == 'wsgi.input':
                 actual_input = request.environ['wsgi.input']
@@ -227,9 +227,6 @@ class TestCallWSGIApp(BaseDjangoTestCase):
         environ = complete_environ(SCRIPT_NAME="/dev", PATH_INFO="/blog/posts")
         request = _make_request(**environ)
         django_response = call_wsgi_app(app, request, "/posts")
-        # Checking the .close() call:
-        assert_false(app.app_iter.closed)
-        django_response.close()
         ok_(app.app_iter.closed)
 
 
